@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	
+
 	if !config.C.Web.Debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -23,18 +23,9 @@ func main() {
 	}
 	r.Use(gin.Recovery())
 	r.Use(middleware.Cors())
-	r.LoadHTMLFiles("dist/index.html")
 
 	// routers
 	{
-		static := r.Group("/")
-		{
-			static.Use(middleware.Cache())
-			static.GET("/", controller.Index)
-			static.StaticFile("/js", "dist/busuanzi.js")
-			static.StaticFile("/js/script.js", "dist/busuanzi.js")
-		}
-
 		r.POST("/api", controller.ApiHandler)
 		r.GET("/ping", controller.PingHandler)
 		r.NoRoute(controller.NoRouteHandler)
