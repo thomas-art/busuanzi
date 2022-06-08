@@ -1,15 +1,11 @@
 package main
 
 import (
-	"busuanzi/app/controller"
-	"busuanzi/app/middleware"
-	"busuanzi/config"
-	"github.com/gin-gonic/gin"
-	"log"
-	"os"
+	"busuanzi/process/webutil"
 )
 
 func main() {
+<<<<<<< HEAD
 
 	if !config.C.Web.Debug {
 		gin.SetMode(gin.ReleaseMode)
@@ -38,4 +34,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("web服务启动失败: %s", err)
 	}
+=======
+	webutil.Init()
+>>>>>>> dev
 }
