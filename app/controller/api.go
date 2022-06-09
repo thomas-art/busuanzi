@@ -2,7 +2,6 @@ package controller
 
 import (
 	"busuanzi/core"
-	"busuanzi/tool"
 	"github.com/gin-gonic/gin"
 	"net/url"
 )
@@ -31,9 +30,7 @@ func ApiHandler(c *gin.Context) {
 	var host = u.Host
 	var path = u.Path
 
-	var _userIp = c.ClientIP()
-	var _userAgent = c.Request.UserAgent()
-	var userIdentity = tool.Md5(_userIp + _userAgent)
+	userIdentity := c.GetString("user_identity")
 
 	// count
 	sitePv, siteUv, pagePv, pageUv := core.Count(host, path, userIdentity)

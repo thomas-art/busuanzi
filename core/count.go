@@ -2,15 +2,15 @@ package core
 
 import (
 	"busuanzi/config"
+	"busuanzi/library/tool"
 	"busuanzi/process/redisutil"
-	"busuanzi/tool"
 	"github.com/gomodule/redigo/redis"
 )
 
 // Count
 // @description return and count the number of users in the redis
 func Count(host string, path string, userIdentity string) (int, int, int, int) {
-	var _redis = redisutil.Pool.Get()
+	_redis := redisutil.Pool.Get()
 	defer func(_redis redis.Conn) {
 		_ = _redis.Close()
 	}(_redis)
@@ -23,14 +23,12 @@ func Count(host string, path string, userIdentity string) (int, int, int, int) {
 	siteUvKey := redisPrefix + ":site_uv:" + siteUnique
 	pageUvKey := redisPrefix + ":page_uv:" + pathUnique
 
-	pagePvKey := redisPrefix + ":page_pv:" + siteUnique
 	sitePvKey := redisPrefix + ":site_pv:" + siteUnique
+	pagePvKey := redisPrefix + ":page_pv:" + siteUnique
 
 	// count sitePv ans pagePv
 	sitePv, _ := redis.Int(_redis.Do("INCR", sitePvKey))
 	pagePv, _ := redis.Int(_redis.Do("ZINCRBY", pagePvKey, 1, pathUnique))
-
-	// count siteUv ans pageUv
 	_, _ = _redis.Do("SADD", siteUvKey, userIdentity)
 	_, _ = _redis.Do("SADD", pageUvKey, userIdentity)
 
