@@ -3,6 +3,7 @@ package controller
 import (
 	"busuanzi/core"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/url"
 )
 
@@ -41,6 +42,8 @@ func ApiHandler(c *gin.Context) {
 
 	// count
 	sitePv, siteUv, pagePv, pageUv := core.Count(host, path, userIdentity)
+
+	log.Printf("%s%s | spv: %d , ppv: %d", host, path, sitePv, pagePv)
 
 	// json
 	c.JSON(200, gin.H{
