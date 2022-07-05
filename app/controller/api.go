@@ -43,7 +43,7 @@ func ApiHandler(c *gin.Context) {
 	// count
 	sitePv, siteUv, pagePv, pageUv := core.Count(host, path, userIdentity)
 
-	log.Printf("%s%s | spv: %d , ppv: %d", host, path, sitePv, pagePv)
+	log.Printf("%s%s | spv: %d , ppv: %d ｜ %s", host, path, sitePv, pagePv, c.ClientIP())
 
 	// json
 	c.JSON(200, gin.H{
